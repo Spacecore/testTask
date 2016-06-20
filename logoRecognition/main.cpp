@@ -9,7 +9,19 @@ using namespace cv;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    string fileName;
+
+    cout<<"Enter path to the pic"<<endl<<"Path:";
+    cin>>fileName;
+
+    Mat input;
+    input = imread(fileName.c_str(), IMREAD_COLOR);
+    if(input.empty()) {cout<<"Could not open or found the image"<<endl; return -1;}
+
+    namedWindow("inputWindow", WINDOW_AUTOSIZE);
+    imshow("inputWindow", input);
+
+    waitKey(0);
     return 0;
 }
 
