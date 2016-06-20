@@ -1,4 +1,4 @@
-C:/Prog/reposit/testTask/logoRecognition/1.jpg
+C:/Prog/reposit/testTask/logoRecognition/1.jpg	
 C:/Prog/reposit/testTask/logoRecognition/2.jpg
 C:/Prog/reposit/testTask/logoRecognition/3.jpg
 C:/Prog/reposit/testTask/logoRecognition/4.jpg
