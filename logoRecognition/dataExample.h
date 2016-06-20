@@ -5,7 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 
-class dataExemple
+class dataExample
 {
 private:
     std::string name_;
@@ -13,7 +13,7 @@ private:
 public:
     cv::Mat getPic();
     std::string getName();
-    dataExemple(std::string aPath, std::string aName);
+    dataExample(std::string aPath, std::string aName);
 };
 
 #endif // DATAEXEMPLE_H
