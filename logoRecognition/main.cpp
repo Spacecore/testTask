@@ -20,7 +20,7 @@ int main()
     vector<dataExample*>* exampleVault;
     exampleVault = new vector<dataExample*>;
 
-    readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
+    readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
     }
