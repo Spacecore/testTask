@@ -4,7 +4,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <vector>
-#include <fstream>
 #include "service.h"
 #include "dataExample.h"
 
@@ -26,9 +25,14 @@ int main()
     for(int i=0; i<datasetVault->size(); i++) {
         cout<<datasetVault->at(i)->getName()<<endl;
     }
-    cout<<exampleVault->at(7)->getName()<<endl;
+    cout<<datasetVault->at(7)->getName()<<endl;
     namedWindow("input window", WINDOW_AUTOSIZE);
+    namedWindow("input1 window", WINDOW_AUTOSIZE);
+    namedWindow("input2 window", WINDOW_AUTOSIZE);
     cvShowImage("input window", exampleVault->at(7)->getBin());
+    cvShowImage("input window1", datasetVault->at(93)->getBin());
+    cvShowImage("input window2", datasetVault->at(103)->getBin());
+
 
     cvWaitKey(0);
     return 0;
