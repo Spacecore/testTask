@@ -14,11 +14,17 @@ using namespace cv;
 int main()
 {
     vector<dataExample*>* exampleVault;
+    vector<dataExample*>* datasetVault;
     exampleVault = new vector<dataExample*>;
+    datasetVault = new vector<dataExample*>;
 
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
+    Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
     for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
+    }
+    for(int i=0; i<datasetVault->size(); i++) {
+        cout<<datasetVault->at(i)->getName()<<endl;
     }
     cout<<exampleVault->at(7)->getName()<<endl;
     namedWindow("input window", WINDOW_AUTOSIZE);

@@ -200,8 +200,6 @@ C:/Prog/reposit/testTask/logoRecognition/DataSet/101.jpg
 101
 C:/Prog/reposit/testTask/logoRecognition/DataSet/102.jpg
 102
-C:/Prog/reposit/testTask/logoRecognition/DataSet/103.gif
-103
 C:/Prog/reposit/testTask/logoRecognition/DataSet/104.jpg
 104
 C:/Prog/reposit/testTask/logoRecognition/DataSet/105.jpg
