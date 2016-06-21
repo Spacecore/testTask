@@ -13,6 +13,7 @@ using namespace cv;
 void readFromFile(vector<dataExample*>* arr, string aPathToFile);
 string charToString(char *aWord);
 char* stringToChar(string aString);
+void conturFoundes();
 
 int main()
 {
@@ -24,11 +25,9 @@ int main()
         cout<<exampleVault->at(i)->getName()<<endl;
     }
 
-
     namedWindow("input window", WINDOW_AUTOSIZE);
-    imshow("input window", exampleVault->at(10)->getPic());
+    imshow("input window", exampleVault->at(i)->getPic());
 
-    waitKey(0);
     return 0;
 }
 
@@ -63,4 +62,32 @@ char* stringToChar(string aString) {
     strcpy(s, aString.c_str());
 
     return s;
+}
+
+void conturFoundes() {
+    IplImage* image;
+    IplImage* gray;
+    IplImage* bin;
+    IplImage* dst;
+
+    image = cvLoadImage("C:/Prog/reposit/testTask/logoRecognition/DataSet/8.jpg",1);
+    gray = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,1);
+    bin = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,1);
+    dst = cvCloneImage(image);
+    cvNamedWindow("original",CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("binary",CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("contur",CV_WINDOW_AUTOSIZE);
+    cvCvtColor(image, gray, CV_RGB2GRAY);
+    cvInRangeS(gray, cvScalar(40), cvScalar(150), bin);
+    CvMemStorage* storage = cvCreateMemStorage(0);
+    CvSeq* contours=0;
+    int contoursCont = cvFindContours( bin, storage,&contours,sizeof(CvContour),CV_RETR_LIST,CV_CHAIN_APPROX_SIMPLE,cvPoint(0,0));
+    for(CvSeq* seq0 = contours;seq0!=0;seq0 = seq0->h_next){
+        cvDrawContours(dst, seq0, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 8);
+    }
+    cvShowImage("original",image);
+    cvShowImage("binary", bin);
+    cvShowImage("contours", dst);
+    cvWaitKey(0);
+
 }
