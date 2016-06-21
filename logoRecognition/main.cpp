@@ -3,9 +3,10 @@
 #include <opencv2/imgcodecs/imgcodecs.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
-#include "dataExample.h"
 #include <vector>
 #include <fstream>
+#include "service.h"
+#include "dataExample.h"
 
 using namespace std;
 using namespace cv;
@@ -26,13 +27,14 @@ int main()
     }
 
     namedWindow("input window", WINDOW_AUTOSIZE);
-    imshow("input window", exampleVault->at(i)->getPic());
+    cvShowImage("input window", exampleVault->at(1)->getPic());
 
+    cvWaitKey(0);
     return 0;
 }
 
 void readFromFile(vector<dataExample*> *arr, string aPathToFile) {
-    ifstream from(stringToChar(aPathToFile),ios_base::in);
+    ifstream from(Service::getResourse()->stringToChar(aPathToFile),ios_base::in);
     while(from.eof() == false) {
        char buff1[100];
        char buff2[100];
@@ -40,29 +42,11 @@ void readFromFile(vector<dataExample*> *arr, string aPathToFile) {
            if(i%2==0){from.getline(buff1,100);}
            else{from.getline(buff2,100);}
        }
-       dataExample* tempExample = new dataExample(charToString(buff1),charToString(buff2));
+       dataExample* tempExample = new dataExample(Service::getResourse()->charToString(buff1),Service::getResourse()->charToString(buff2));
        arr->push_back(tempExample);
     }
 }
 
-string charToString(char *aWord) {
-    using namespace std;
-
-    string s(aWord);
-
-    return s;
-}
-
-char* stringToChar(string aString) {
-    using namespace std;
-
-    char* s;
-
-    s = new char[aString.length() + 1];
-    strcpy(s, aString.c_str());
-
-    return s;
-}
 
 void conturFoundes() {
     IplImage* image;
@@ -70,7 +54,7 @@ void conturFoundes() {
     IplImage* bin;
     IplImage* dst;
 
-    image = cvLoadImage("C:/Prog/reposit/testTask/logoRecognition/DataSet/8.jpg",1);
+    image = cvLoadImage("C:/Prog/reposit/testTask/logoRecognition/DataSet/100.jpg",1);
     gray = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,1);
     bin = cvCreateImage(cvGetSize(image), IPL_DEPTH_8U,1);
     dst = cvCloneImage(image);

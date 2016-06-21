@@ -9,9 +9,9 @@ class dataExample
 {
 private:
     std::string name_;
-    cv::Mat pic_;
+    IplImage* pic_;
 public:
-    cv::Mat getPic();
+    IplImage* getPic();
     std::string getName();
     dataExample(std::string aPath, std::string aName);
 };
