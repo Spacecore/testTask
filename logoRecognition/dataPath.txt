@@ -2,35 +2,35 @@ C:/Prog/reposit/testTask/logoRecognition/DataSet/1.jpg
 The Rolling Stones
 C:/Prog/reposit/testTask/logoRecognition/DataSet/2.jpg
 Samsung
-C:/Prog/reposit/testTask/logoRecognition/DataSet/3.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/3.png
 Sony
-C:/Prog/reposit/testTask/logoRecognition/DataSet/4.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/4.png
 Adidas
-C:/Prog/reposit/testTask/logoRecognition/DataSet/5.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/5.png
 Kodak
-C:/Prog/reposit/testTask/logoRecognition/DataSet/6.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/6.png
 Perrier
 C:/Prog/reposit/testTask/logoRecognition/DataSet/7.jpg
 BMW
 C:/Prog/reposit/testTask/logoRecognition/DataSet/8.jpg
 Twitter
-C:/Prog/reposit/testTask/logoRecognition/DataSet/9.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/9.png
 Adidas
 C:/Prog/reposit/testTask/logoRecognition/DataSet/10.jpg
 Chupa Chups
 C:/Prog/reposit/testTask/logoRecognition/DataSet/11.jpg
 Coca-Cola
-C:/Prog/reposit/testTask/logoRecognition/DataSet/12.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/12.png
 Colgate
 C:/Prog/reposit/testTask/logoRecognition/DataSet/13.jpg
 Hyundai
-C:/Prog/reposit/testTask/logoRecognition/DataSet/14.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/14.png
 Lacoste
 C:/Prog/reposit/testTask/logoRecognition/DataSet/15.jpg
 Lego
 C:/Prog/reposit/testTask/logoRecognition/DataSet/16.jpg
 Baskin robbins
-C:/Prog/reposit/testTask/logoRecognition/DataSet/17.jpg
+C:/Prog/reposit/testTask/logoRecognition/DataSet/17.png
 Blend-a-med
 C:/Prog/reposit/testTask/logoRecognition/DataSet/18.jpg
 Mars
