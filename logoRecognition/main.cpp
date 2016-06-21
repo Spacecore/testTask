@@ -11,15 +11,12 @@
 using namespace std;
 using namespace cv;
 
-void readFromFile(vector<dataExample*>* arr, string aPathToFile);
-void conturFoundes();
-
 int main()
 {
     vector<dataExample*>* exampleVault;
     exampleVault = new vector<dataExample*>;
 
-    readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
+    Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
     }
@@ -31,16 +28,3 @@ int main()
     return 0;
 }
 
-void readFromFile(vector<dataExample*> *arr, string aPathToFile) {
-    ifstream from(Service::getResourse()->stringToChar(aPathToFile),ios_base::in);
-    while(from.eof() == false) {
-       char buff1[100];
-       char buff2[100];
-       for(int i=0; i<2; i++){
-           if(i%2==0){from.getline(buff1,100);}
-           else{from.getline(buff2,100);}
-       }
-       dataExample* tempExample = new dataExample(Service::getResourse()->charToString(buff1),Service::getResourse()->charToString(buff2));
-       arr->push_back(tempExample);
-    }
-}
