@@ -25,13 +25,35 @@ int main()
     for(int i=0; i<datasetVault->size(); i++) {
         cout<<datasetVault->at(i)->getName()<<endl;
     }
-    cout<<datasetVault->at(7)->getName()<<endl;
-    namedWindow("input window", WINDOW_AUTOSIZE);
-    namedWindow("input1 window", WINDOW_AUTOSIZE);
-    namedWindow("input2 window", WINDOW_AUTOSIZE);
-    cvShowImage("input window", exampleVault->at(7)->getBin());
-    cvShowImage("input window1", datasetVault->at(93)->getBin());
-    cvShowImage("input window2", datasetVault->at(103)->getBin());
+
+    namedWindow("example window", WINDOW_FREERATIO);
+    namedWindow("dataset window", WINDOW_FREERATIO);
+    int i=0;
+    int j=0;
+    while(true) {
+        char c = cvWaitKey(0);
+        if(c == 13){
+            break;
+        }
+        if(c == 97){
+            i--;
+            if(i<0){i=exampleVault->size()-1;}
+        }
+        if(c == 100) {
+            i++;
+            if(i>exampleVault->size()-1){i=0;}
+        }
+        if(c == 37) {
+            j--;
+            if(j<0){j=datasetVault->size()-1;}
+        }
+        if(c == 39) {
+            j++;
+            if(j>datasetVault->size()-1){j=0;}
+        }
+        cvShowImage("example window", exampleVault->at(i)->getBin());
+        cvShowImage("dataset window", datasetVault->at(j)->getBin());
+    }
 
 
     cvWaitKey(0);
