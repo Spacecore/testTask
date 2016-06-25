@@ -17,6 +17,7 @@ using namespace cv;
 
 void testMatch(IplImage* original, IplImage* templ);
 void testTemplateMatch(IplImage* original, IplImage* templ);
+void templateMatch(IplImage* src, IplImage* templ);
 
 int main()
 {
@@ -27,8 +28,8 @@ int main()
 
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
-    /*for(int i=0; i<exampleVault->size()-1;i++){
-        testMatch(exampleVault->at(i)->getPic(),exampleVault->at(6)->getPic());
+    /*for(int i=0; i<datasetVault->size()-1;i++){
+        templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(0)->getPic());
     }*/
     for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
@@ -66,7 +67,6 @@ int main()
         cvShowImage("dataset window", datasetVault->at(j)->getBin());
     }
 
-
     cvWaitKey(0);
     return 0;
 }
@@ -87,12 +87,6 @@ void testMatch(IplImage* original, IplImage* templ) {
 
     cvCanny(src, binI, 50, 200);
     cvCanny(templ, binT, 50, 200);
-
-    cvNamedWindow( "cannyI", 1 );
-    cvShowImage( "cannyI", binI);
-
-    cvNamedWindow( "cannyT", 1 );
-    cvShowImage( "cannyT", binT);
 
     CvMemStorage* storage = cvCreateMemStorage(0);
     CvSeq* contoursI=0, *contoursT=0;
@@ -193,4 +187,28 @@ void testTemplateMatch(IplImage* original, IplImage* templ) {
     cvShowImage("Match", original);
     cvWaitKey(0);
 
+}
+
+void templateMatch(IplImage* src, IplImage* templ) {
+    cvNamedWindow("match",WINDOW_FREERATIO);
+
+    IplImage* original=0, *find = 0;
+    original = cvCloneImage(src);
+    find = cvCloneImage(templ);
+
+    int width = original->width - find->width - 1;
+    if(width < 0){width = width*-1;}
+    int height = original->height - find->height - 1;
+    if(height < 0) {height = height*-1;}
+
+    IplImage *res = cvCreateImage(cvSize(width,height),IPL_DEPTH_32F,1);
+    cvMatchTemplate(original, find, res, CV_TM_SQDIFF);
+
+    double minVal, maxVal;
+    CvPoint minLoc, maxLoc;
+    cvMinMaxLoc(res,&minVal, &maxVal, &minLoc, &maxLoc,0);
+    cvNormalize(res,res,1,0,CV_MINMAX);
+    cvRectangle(original, cvPoint(minLoc.x, minLoc.y), cvPoint(minLoc.x+find->width-1,minLoc.y+find->height-1), CV_RGB(255, 0, 0), 1, 8);
+    cvShowImage("Match", original);
+    cvWaitKey(0);
 }
