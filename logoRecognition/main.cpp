@@ -28,10 +28,17 @@ int main()
 
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
-    /*for(int i=0; i<datasetVault->size()-1;i++){
-        templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(0)->getPic());
-    }*/
-    for(int i=0; i<exampleVault->size(); i++) {
+    namedWindow("111", WINDOW_FREERATIO);
+    cvShowImage("111",exampleVault->at(7)->getPic());
+    for(int i=0; i<datasetVault->size()-1;i++){
+        try{
+            templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(7)->getPic());
+        } catch(...) {
+            continue;
+        }
+    }
+
+    /*for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
     }
     for(int i=0; i<datasetVault->size(); i++) {
@@ -65,7 +72,7 @@ int main()
         }
         cvShowImage("example window", exampleVault->at(i)->getBin());
         cvShowImage("dataset window", datasetVault->at(j)->getBin());
-    }
+    }*/
 
     cvWaitKey(0);
     return 0;
@@ -190,19 +197,19 @@ void testTemplateMatch(IplImage* original, IplImage* templ) {
 }
 
 void templateMatch(IplImage* src, IplImage* templ) {
-    cvNamedWindow("match",WINDOW_FREERATIO);
+    cvNamedWindow("match",CV_WINDOW_AUTOSIZE);
 
     IplImage* original=0, *find = 0;
     original = cvCloneImage(src);
     find = cvCloneImage(templ);
 
-    int width = original->width - find->width - 1;
-    if(width < 0){width = width*-1;}
-    int height = original->height - find->height - 1;
-    if(height < 0) {height = height*-1;}
+    //int width = original->width - find->width - 1;
+    //if(width < 0){width = width*-1;}
+    //int height = original->height - find->height - 1;
+    //if(height < 0) {height = height*-1;}
 
-    IplImage *res = cvCreateImage(cvSize(width,height),IPL_DEPTH_32F,1);
-    cvMatchTemplate(original, find, res, CV_TM_SQDIFF);
+    IplImage *res = cvCreateImage(cvSize(src->width-templ->width+1,src->height-templ->height+1),IPL_DEPTH_32F,1);
+    cvMatchTemplate(original, find, res, CV_TM_SQDIFF /*CV_TM_CCOEFF_NORMED*/);
 
     double minVal, maxVal;
     CvPoint minLoc, maxLoc;
