@@ -11,7 +11,12 @@
 using namespace std;
 using namespace cv;
 
+
+
+
+
 void testMatch(IplImage* original, IplImage* templ);
+void testTemplateMatch(IplImage* original, IplImage* templ);
 
 int main()
 {
@@ -22,8 +27,8 @@ int main()
 
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
-    /*for(int i=0; i<datasetVault->size()-1;i++){
-        testMatch(exampleVault->at(6)->getPic(),datasetVault->at(i)->getPic());
+    /*for(int i=0; i<exampleVault->size()-1;i++){
+        testMatch(exampleVault->at(i)->getPic(),exampleVault->at(6)->getPic());
     }*/
     for(int i=0; i<exampleVault->size(); i++) {
         cout<<exampleVault->at(i)->getName()<<endl;
@@ -121,10 +126,10 @@ void testMatch(IplImage* original, IplImage* templ) {
                             perimT = perim;
                             seqT = seq0;
                     }
-                    cvDrawContours(rgbT, seq0, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 8); // рисуем контур
+                    cvDrawContours(rgbT, seq0, CV_RGB(255,216,0), CV_RGB(0,0,250), 0, 1, 8);
             }
     }
-    cvDrawContours(rgbT, seqT, CV_RGB(52,201,36), CV_RGB(36,201,197), 0, 2, 8); // рисуем контур
+    cvDrawContours(rgbT, seqT, CV_RGB(52,201,36), CV_RGB(36,201,197), 0, 2, 8);
     cvNamedWindow( "contT", 1 );
     cvShowImage( "contT", rgbT );
 
@@ -142,7 +147,7 @@ void testMatch(IplImage* original, IplImage* templ) {
                     printf("[i] %d match: %.2f\n", ++counter, match0);
             }
     }
-    cvDrawContours(rgb, seqM, CV_RGB(52,201,36), CV_RGB(36,201,197), 0, 2, 8); // рисуем контур
+    cvDrawContours(rgb, seqM, CV_RGB(52,201,36), CV_RGB(36,201,197), 0, 2, 8);
 
     cvNamedWindow( "find", 1 );
     cvShowImage( "find", rgb );
@@ -159,4 +164,33 @@ void testMatch(IplImage* original, IplImage* templ) {
     cvReleaseImage(&binT);
 
     cvDestroyAllWindows();
+}
+
+void testTemplateMatch(IplImage* original, IplImage* templ) {
+    cvNamedWindow("origianl", CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("template", CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("Match", CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("res", CV_WINDOW_AUTOSIZE);
+
+    int width = templ->width;
+    int height = templ->height;
+
+    cvShowImage( "origianl", original);
+    cvShowImage( "template", templ);
+
+    IplImage *res = cvCreateImage( cvSize( (original->width-templ->width+1), (original->height-templ->height+1)), IPL_DEPTH_32F, 1 );
+    cvMatchTemplate(original, templ, res, CV_TM_SQDIFF);
+    cvShowImage( "res", res);
+
+    double    minval, maxval;
+    CvPoint    minloc, maxloc;
+    cvMinMaxLoc(res, &minval, &maxval, &minloc, &maxloc, 0);
+
+    cvNormalize(res,res,1,0,CV_MINMAX);
+    cvNamedWindow("res norm", CV_WINDOW_AUTOSIZE);
+    cvShowImage( "res norm", res);
+    cvRectangle(original, cvPoint(minloc.x, minloc.y), cvPoint(minloc.x+templ->width-1, minloc.y+templ->height-1), CV_RGB(255, 0, 0), 1, 8);
+    cvShowImage("Match", original);
+    cvWaitKey(0);
+
 }
