@@ -29,12 +29,15 @@ int main()
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
     namedWindow("111", WINDOW_FREERATIO);
-    cvShowImage("111",exampleVault->at(7)->getPic());
-    for(int i=0; i<datasetVault->size()-1;i++){
-        try{
-            templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(7)->getPic());
-        } catch(...) {
-            continue;
+
+    for(int j =0; j<exampleVault->size();j++) {
+        cvShowImage("111",exampleVault->at(j)->getPic());
+        for(int i=0; i<datasetVault->size()-1;i++){
+            try{
+                templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(j)->getPic());
+            } catch(...) {
+                continue;
+            }
         }
     }
 
@@ -80,20 +83,24 @@ int main()
 
 void testMatch(IplImage* original, IplImage* templ) {
 
-    IplImage *src=0, *dst=0;
+    IplImage *src=0, *dst=0, *find=0;
+
 
     src=cvCloneImage(original);
 
+    find = cvCreateImage(cvSize(original->width,original->height), templ->depth,templ->nChannels);
+    cvResize(templ, find,CV_INTER_LINEAR);
+
     IplImage* binI = cvCreateImage( cvGetSize(src), 8, 1);
-    IplImage* binT = cvCreateImage( cvGetSize(templ), 8, 1);
+    IplImage* binT = cvCreateImage( cvGetSize(find), 8, 1);
 
     IplImage* rgb = cvCreateImage(cvGetSize(original), 8, 3);
     cvConvertImage(src, rgb, CV_GRAY2BGR);
-    IplImage* rgbT = cvCreateImage(cvGetSize(templ), 8, 3);
-    cvConvertImage(templ, rgbT, CV_GRAY2BGR);
+    IplImage* rgbT = cvCreateImage(cvGetSize(find), 8, 3);
+    cvConvertImage(find, rgbT, CV_GRAY2BGR);
 
     cvCanny(src, binI, 50, 200);
-    cvCanny(templ, binT, 50, 200);
+    cvCanny(find, binT, 50, 200);
 
     CvMemStorage* storage = cvCreateMemStorage(0);
     CvSeq* contoursI=0, *contoursT=0;
@@ -201,21 +208,17 @@ void templateMatch(IplImage* src, IplImage* templ) {
 
     IplImage* original=0, *find = 0;
     original = cvCloneImage(src);
-    find = cvCloneImage(templ);
+    find = cvCreateImage(cvSize(original->width/2.5,original->height/2.5), templ->depth,templ->nChannels);
+    cvResize(templ, find,CV_INTER_LINEAR);
 
-    //int width = original->width - find->width - 1;
-    //if(width < 0){width = width*-1;}
-    //int height = original->height - find->height - 1;
-    //if(height < 0) {height = height*-1;}
-
-    IplImage *res = cvCreateImage(cvSize(src->width-templ->width+1,src->height-templ->height+1),IPL_DEPTH_32F,1);
-    cvMatchTemplate(original, find, res, CV_TM_SQDIFF /*CV_TM_CCOEFF_NORMED*/);
+    IplImage *res = cvCreateImage(cvSize(src->width-find->width+1,src->height-find->height+1),IPL_DEPTH_32F,1);
+    cvMatchTemplate(original, find, res, CV_TM_CCORR /*CV_TM_CCOEFF_NORMED*/);
 
     double minVal, maxVal;
     CvPoint minLoc, maxLoc;
     cvMinMaxLoc(res,&minVal, &maxVal, &minLoc, &maxLoc,0);
     cvNormalize(res,res,1,0,CV_MINMAX);
-    cvRectangle(original, cvPoint(minLoc.x, minLoc.y), cvPoint(minLoc.x+find->width-1,minLoc.y+find->height-1), CV_RGB(255, 0, 0), 1, 8);
+    cvRectangle(original, cvPoint(maxLoc.x, maxLoc.y), cvPoint(maxLoc.x+find->width-1,maxLoc.y+find->height-1), CV_RGB(255, 0, 0), 1, 8);
     cvShowImage("Match", original);
     cvWaitKey(0);
 }
