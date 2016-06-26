@@ -10,16 +10,10 @@ class dataExample
 private:
     std::string name_;
     IplImage* pic_;
-    IplImage* bin_;
-    IplImage* gray_;
-    IplImage* withCont_;
 public:
     IplImage* getPic();
     std::string getName();
     dataExample(std::string aPath, std::string aName);
-    IplImage* getBin();
-    IplImage* getGray();
-    IplImage* getPicWithCon();
 };
 
 #endif // DATAEXEMPLE_H
