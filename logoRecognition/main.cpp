@@ -12,7 +12,7 @@ using namespace std;
 using namespace cv;
 
 
-void templateMatch(IplImage* src, IplImage* templ);
+void templateMatch(IplImage* src, IplImage* templ, string templName,string outputName);
 
 int main()
 {
@@ -23,13 +23,15 @@ int main()
 
     Service::getResourse()->readFromFile(exampleVault,"C:/Prog/reposit/testTask/logoRecognition/exampleDataPath.txt");
     Service::getResourse()->readFromFile(datasetVault,"C:/Prog/reposit/testTask/logoRecognition/dataPath.txt");
-    namedWindow("111", WINDOW_FREERATIO);
+    //namedWindow("111", WINDOW_FREERATIO);
 
-    for(int j =0; j<exampleVault->size();j++) {
-        cvShowImage("111",exampleVault->at(j)->getPic());
+    for(int j =2; j<exampleVault->size();j++) {
+        //cvShowImage("111",exampleVault->at(j)->getPic());
         for(int i=0; i<datasetVault->size()-1;i++){
+            cout<<i<<j;
             try{
-                templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(j)->getPic());
+                templateMatch(datasetVault->at(i)->getPic(),exampleVault->at(j)->getPic(),exampleVault->at(j)->getName(),
+                              datasetVault->at(i)->getName());
             } catch(...) {
                 continue;
             }
@@ -39,7 +41,7 @@ int main()
     return 0;
 }
 
-void templateMatch(IplImage* src, IplImage* templ) {
+void templateMatch(IplImage* src, IplImage* templ, string templName, string outputName) {
     cvNamedWindow("match",CV_WINDOW_AUTOSIZE);
 
     IplImage* original=0, *find = 0;
@@ -59,6 +61,8 @@ void templateMatch(IplImage* src, IplImage* templ) {
     cvMinMaxLoc(res,&minVal, &maxVal, &minLoc, &maxLoc,0);
     cvNormalize(res,res,1,0,CV_MINMAX);
     cvRectangle(original, cvPoint(minLoc.x, minLoc.y), cvPoint(minLoc.x+find->width-1,minLoc.y+find->height-1), CV_RGB(255, 0, 0), 1, 8);
-    cvShowImage("Match", original);
-    cvWaitKey(0);
+    //cvShowImage("Match", original);
+    //cvWaitKey(0);
+    string path = templName+outputName+".jpg";
+    cvSaveImage(Service::getResourse()->stringToChar(path),original);
 }
