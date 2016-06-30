@@ -63,4 +63,7 @@ void templateMatch(IplImage* src, IplImage* templ, string templName, string outp
     cvRectangle(original, cvPoint(minLoc.x, minLoc.y), cvPoint(minLoc.x+find->width-1,minLoc.y+find->height-1), CV_RGB(255, 0, 0), 1, 8);
     string path = "Rezult/"+templName+outputName+".jpg";
     cvSaveImage(Service::getResourse()->stringToChar(path),original);
+    cvReleaseImage(&res);
+    cvReleaseImage(&find);
+    cvReleaseImage(&original);
 }
